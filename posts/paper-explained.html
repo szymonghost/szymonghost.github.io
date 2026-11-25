@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" class="paper-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="data:,">
+  <title>The Paper, Explained | Szymon Duchowicz</title>
+  <meta name="description" content="An interactive explanation of what changes when neural networks learn the same tasks in different orders.">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../assets/explainer-labs.css">
+  <script src="../assets/explainer.js" type="module"></script>
+</head>
+<body data-explainer-src="../data/explainer.json">
+<a class="skip-link" href="#same-tasks">Skip to the explainer</a>
+<header class="masthead post-masthead site-frame">
+  <a class="identity" href="../index.html">Back to home</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#research">Research</a>
+    <a href="#contents">Contents</a>
+  </nav>
+  <div class="site-controls">
+    <button type="button" class="control motion-control" data-motion-button aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true"></span><span data-motion-label>Pause motion</span></button>
+    <button type="button" class="control theme-control" data-theme-button aria-label="Switch to light mode" title="Switch to light mode" hidden><span class="theme-icon" aria-hidden="true"></span></button>
+  </div>
+</header>
+<main>
+<section class="hero site-frame" aria-labelledby="page-title">
+  <div class="hero-main">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="signal" aria-hidden="true"></span>The paper, explained</p>
+      <h1 id="page-title">Same tasks.<br>Different<br>forgetting.</h1>
+      <p class="hero-description">Change the order in which a neural network learns its tasks, and you change what it forgets. Explore the measurements behind that result.</p>
+      <div class="hero-actions">
+        <a class="button button-solid" href="#same-tasks">Start exploring</a>
+        <a class="button button-outline" href="https://zenodo.org/records/23769322">Read the paper</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <span class="art-corner art-corner-tl"></span><span class="art-corner art-corner-tr"></span><span class="art-corner art-corner-bl"></span><span class="art-corner art-corner-br"></span>
+      <div class="art-reticle"></div>
+      <canvas data-ascii></canvas>
+      <div class="art-label"><span class="signal"></span> Four-task order space</div>
+    </div>
+  </div>
+  <div class="hero-facts" aria-label="Five-task MNIST experiment" data-facts hidden>
+    <div><strong data-fact="orders"></strong><span>Task orders</span></div>
+    <div><strong data-fact="seeds"></strong><span>Runs per order</span></div>
+    <div><strong data-fact="beyond"></strong><span>Effect beyond pairwise terms</span></div>
+    <div class="hero-reading"><span>Interactive research post</span><span>10–12 min</span></div>
+  </div>
+</section>
+<div class="article-grid site-frame">
+  <aside class="contents" id="contents">
+    <nav class="contents-inner" aria-label="Article contents">
+      <p class="eyebrow">Contents</p>
+      <ol>
+  <li><a href="#same-tasks"><span>01</span>Same tasks, different order</a></li>
+  <li><a href="#space"><span>02</span>The space of all orders</a></li>
+  <li><a href="#noise"><span>03</span>Real or noise?</a></li>
+  <li><a href="#layers"><span>04</span>Splitting order into layers</a></li>
+  <li><a href="#tasks"><span>05</span>What the layers say</a></li>
+  <li><a href="#theories"><span>06</span>What each theory can see</a></li>
+  <li><a href="#game"><span>07</span>Play the game</a></li>
+  <li><a href="#meaning"><span>08</span>What it means</a></li>
+</ol>
+    </nav>
+  </aside>
+  <article class="story" aria-label="The paper, explained">
+    <p class="load-error" role="status" data-load-error hidden>The interactive data could not be loaded. The article text and paper link are still available.</p>
+    <noscript><p class="load-error">The interactive figures need JavaScript. You can still read the article and the paper.</p></noscript>
+
+    <section class="chapter" id="same-tasks" aria-labelledby="same-tasks-title">
+      <header><p class="chapter-index" aria-hidden="true">01 / The experiment</p><h2 id="same-tasks-title">Same tasks, different order.</h2></header>
+      <p>I trained a small neural network on five tasks. Each task asked it to distinguish a different pair of handwritten digits. The network learned one task at a time. I tried every possible order and started training from scratch for each repeat.</p>
+      <p><strong>Total forgetting</strong> adds up the difference between each task’s test accuracy right after the network learned it and its test accuracy at the end of training. In this experiment, the order alone changed average forgetting<span data-text="range"></span>. Smaller values mean the network remembered more.</p>
+      <div id="lab-order"></div>
+      <p class="specialist"><strong>For specialists</strong> Each experiment here uses split-MNIST with an MLP and task-specific output heads.</p>
+    </section>
+
+    <section class="chapter" id="space" aria-labelledby="space-title">
+      <header><p class="chapter-index" aria-hidden="true">02 / Geometry</p><h2 id="space-title">The space of all orders.</h2></header>
+      <p>For a shape we can rotate on screen, switch to a separate experiment with four tasks. In order B–A–C–D, task A is second, B is first, C is third, and D is fourth. The four slot numbers always add up to the same total, so three coordinates are enough to locate each order. The orders form the corners of a shape called a <em>permutohedron</em><span data-text="geometry"></span>.</p>
+      <p>Follow an edge and you swap two neighboring tasks. Forgetting is a value at each corner, like elevation on a map. Shade stands in for height here, so you can still see the edges clearly.</p>
+      <div id="permutohedron-widget"></div>
+      <p class="specialist"><strong>For specialists</strong> The vertices are the permutations of the four positions projected isometrically into their sum-zero subspace after centering.</p>
+    </section>
+
+    <section class="chapter" id="noise" aria-labelledby="noise-title">
+      <header><p class="chapter-index" aria-hidden="true">03 / Replication</p><h2 id="noise-title">Real or noise?</h2></header>
+      <p>A random seed controls choices such as the network’s starting weights and the order of its training examples. I used the same set of seeds for every task order. Forgetting varies from seed to seed even when the order stays fixed<span data-text="seedVariation"></span>. Compare entire sets of orders across seeds and a pattern emerges<span data-text="repeatShare"></span>.</p>
+      <p>The paper counts the differences between orders that repeat across independent seeds. Try averaging more seeds and watch how the landscape settles.</p>
+      <div id="lab-noise"></div>
+      <p class="specialist"><strong>For specialists</strong> The signal estimate averages inner products across distinct centered seed landscapes, leaving out within-seed squared terms.</p>
+    </section>
+
+    <section class="chapter" id="layers" aria-labelledby="layers-title">
+      <header><p class="chapter-index" aria-hidden="true">04 / Decomposition</p><h2 id="layers-title">Splitting order into layers.</h2></header>
+      <p>A sound can be split into frequencies. Each frequency describes a different kind of variation, and adding them back gives the original sound. The paper applies the same idea to forgetting across orders. Its layers describe different kinds of order effects.</p>
+      <p>Some differences come from where individual tasks sit. Some depend on which two slots a pair occupies, with the same contribution if the tasks trade places. The slots can be far apart. Another layer captures pair effects that change when the two tasks exchange positions. Add the layers in the figure to see how much of the measured shape they recover.</p>
+      <div id="layers-widget"></div>
+      <p>Effects involving more than two tasks account for <strong data-text="beyondPair">a measurable share</strong> of the repeatable differences in this setting. A model built entirely from positions and pairs can describe much of the landscape. That remainder stays outside its reach regardless of how its parameters are chosen. The paper detects this remainder in both of its main experiments under two assumptions. The seeds are independent, and under the hypothesis that positions and pairs explain the full pattern, each seed’s remaining pattern and its sign-reversed version are equally likely.</p>
+      <p class="specialist"><strong>For specialists</strong> This is a Fourier transform on the symmetric group of task permutations, grouped by isotypic component and assignment degree<span data-text="partitions"></span>.</p>
+    </section>
+
+    <section class="chapter" id="tasks" aria-labelledby="tasks-title">
+      <header><p class="chapter-index" aria-hidden="true">05 / Interpretation</p><h2 id="tasks-title">What the layers say about the tasks.</h2></header>
+      <p>The position layer gives each task a score for each slot. The scores are centered, so a negative value means that particular placement is associated with less forgetting in the position layer. The pair fit asks how much of the layer for pairs in either order can be explained by immediate neighbors.</p>
+      <div id="lab-task-effects"></div>
+      <p class="specialist"><strong>For specialists</strong> The table comes from the degree-one projection. The adjacency fit is applied to the symmetric-pair projection.</p>
+    </section>
+
+    <section class="chapter" id="theories" aria-labelledby="theories-title">
+      <header><p class="chapter-index" aria-hidden="true">06 / Model comparison</p><h2 id="theories-title">What each theory can see.</h2></header>
+      <p>Every theory about task order can express certain patterns. A model built on “A before B” can express some position effects and some effects of which task comes first. It covers only part of the layer for effects that change when tasks trade places. It cannot express the layer whose pair effects stay the same after a trade. For this experiment, that is the biggest layer.</p>
+      <p>Choose a model to see its best fit to the average landscape. The matrix shows which patterns a model can express in principle. The score shows how much of the repeatable effect in this experiment falls within its reach.</p>
+      <div id="theories-widget"></div>
+      <p>The flexible symmetric-pair row covers the class used by Li and Hiratani, Lin and colleagues, and Cao, Cheng and Shen. The last two rows fix the position weights to the published Cao–Cheng–Shen choices.</p>
+      <p class="specialist"><strong>For specialists</strong> Model capacity is the rank of the projected feature space within each component. The two-component support of pairwise-order features follows from the Kendall-kernel spectrum in <a href="https://arxiv.org/abs/1603.08035">Mania et al. (2018)</a>.</p>
+    </section>
+
+    <section class="chapter" id="game" aria-labelledby="game-title">
+      <header><p class="chapter-index" aria-hidden="true">07 / Prediction</p><h2 id="game-title">Can you beat best-of-n?</h2></header>
+      <p>You can measure <span data-text="budget">a limited number of</span> orders. When your budget runs out, choose any order. Your choice is scored on precomputed runs with seeds that were hidden during play. Your rivals are a fitted “A before B” model and a simple rule: keep the best order you measured.</p>
+      <div id="lab-game"></div>
+      <p data-game-summary>The simulations use this five-task MNIST example.</p>
+      <p class="specialist"><strong>For specialists</strong> The game fits ridge regression on pairwise-order features and measures normalized regret on held-out seeds.</p>
+    </section>
+
+    <section class="chapter" id="meaning" aria-labelledby="meaning-title">
+      <header><p class="chapter-index" aria-hidden="true">08 / Takeaways</p><h2 id="meaning-title">What it means.</h2></header>
+      <ul class="takeaways">
+        <li><strong>Order matters.</strong> The same network can remember very different amounts after learning the same tasks.</li>
+        <li><strong>Repeated runs reveal structure.</strong> Positions and pairs explain most of the effect in this experiment. Some repeatable differences involve more tasks at once.</li>
+        <li><strong>Explanation and prediction are different tests.</strong> A theory can describe a measured landscape well and still choose a worse order than simply keeping the best one it tried.</li>
+      </ul>
+      <h3>Where to go next</h3>
+      <dl class="audiences">
+        <div><dt>For theorists</dt><dd>Check which patterns a model’s features can express. The layer breakdown can help you decide which features to add.</dd></div>
+        <div><dt>For continual-learning researchers</dt><dd>Repeat orders across seeds and report what holds up across runs. These small digit tasks make complete experiments possible. Larger systems need their own measurements.</dd></div>
+        <div><dt>For practitioners</dt><dd>Keep the best measured order as a baseline. Evaluate any recommendation on fresh runs before acting on it.</dd></div>
+      </dl>
+      <details class="decoder">
+        <summary>Jargon decoder</summary>
+        <table><thead><tr><th scope="col">In the paper</th><th scope="col">In plain words</th></tr></thead><tbody>
+          <tr><th scope="row">Continual learning</th><td>Learning new tasks over time using the same network.</td></tr>
+          <tr><th scope="row">Catastrophic forgetting</th><td>Earlier skills get worse as the network learns something new.</td></tr>
+          <tr><th scope="row">Total forgetting (F)</th><td>The sum across tasks of each task’s test accuracy just after learning it minus its test accuracy at the end of training.</td></tr>
+          <tr><th scope="row">MLP</th><td>A neural network made of stacked fully connected layers.</td></tr>
+          <tr><th scope="row">Random seed</th><td>A repeatable choice of the random inputs used during training.</td></tr>
+          <tr><th scope="row">Permutation / symmetric group</th><td>A possible task order / the complete set of orders with a rule for composing rearrangements.</td></tr>
+          <tr><th scope="row">Complete landscape</th><td>A response, such as forgetting, measured for every possible order of the same tasks.</td></tr>
+          <tr><th scope="row">Permutohedron</th><td>A shape with one corner per order. An edge swaps two neighboring tasks.</td></tr>
+          <tr><th scope="row">Population mean</th><td>The average forgetting you would get over arbitrarily many independent repeats.</td></tr>
+          <tr><th scope="row">Spectral audit / Fourier transform</th><td>A check that splits the landscape into distinct types of variation and measures them separately.</td></tr>
+          <tr><th scope="row">Irreducible representation / partition</th><td>A basic way rearrangements act on a pattern / the label that identifies that pattern type.</td></tr>
+          <tr><th scope="row">Isotypic component / spectral projection</th><td>All patterns of one type, grouped together / keeping only the part of the landscape in that group.</td></tr>
+          <tr><th scope="row">Assignment degree</th><td>How many task placements you need to specify to build a kind of order effect.</td></tr>
+          <tr><th scope="row">Nonconstant signal</th><td>The repeatable differences across orders after subtracting the overall average.</td></tr>
+          <tr><th scope="row">Energy / Parseval</th><td>How much squared variation a layer contains / the identity that says the layer energies add to the total.</td></tr>
+          <tr><th scope="row">Parity</th><td>Whether it takes an even or odd number of neighboring swaps to turn the reference order into this one.</td></tr>
+          <tr><th scope="row">Higher-degree complement</th><td>The structure left after accounting for positions and pairs.</td></tr>
+          <tr><th scope="row">Near-hook block / allocation contrast</th><td>A particular layer within degree three / a comparison of its signal share to its share of available coordinates.</td></tr>
+          <tr><th scope="row">Pairwise order (PWO)</th><td>Features that ask which of two tasks comes first.</td></tr>
+          <tr><th scope="row">Symmetric pairs</th><td>Pair features that ignore which of the two tasks comes first.</td></tr>
+          <tr><th scope="row">Transition model</th><td>A model that gives a score to a task immediately following another task.</td></tr>
+          <tr><th scope="row">Model footprint / rank</th><td>Which layers a model can reach / how many independent patterns it can express in a layer.</td></tr>
+          <tr><th scope="row">Seed noise correction</th><td>Use agreement between separate runs to estimate what repeats.</td></tr>
+          <tr><th scope="row">Whole-seed sign test</th><td>Check the observed repeatable remainder against outcomes that flip each seed’s entire remainder together.</td></tr>
+          <tr><th scope="row">Central symmetry</th><td>The assumption that a centered seed’s whole deviation and its negative are equally likely.</td></tr>
+          <tr><th scope="row">Jackknife interval</th><td>An uncertainty estimate based on how the result changes when each seed is left out in turn.</td></tr>
+          <tr><th scope="row">Holm adjustment</th><td>A way to limit false positives when testing several related claims.</td></tr>
+          <tr><th scope="row">Ridge regression</th><td>A fitted model that penalizes large weights to reduce overfitting.</td></tr>
+          <tr><th scope="row">Best-of-n / normalized regret</th><td>Keep the best of the measured orders / how far the chosen order falls between the best and worst on held-out runs.</td></tr>
+        </tbody></table>
+      </details>
+      <div class="resources">
+        <h3>Paper and figure data</h3>
+        <p>The paper is <cite>Beyond Pairwise Task-Order Models: A Seed-Aware Spectral Audit of Continual-Learning Landscapes</cite>, accepted at the CL4FMAgents workshop at NeurIPS 2026.</p>
+        <ul class="resource-links">
+          <li><a href="https://zenodo.org/records/23769322">Paper on Zenodo</a></li>
+          <li><a href="https://neurips.cc/virtual/2026/loc/sydney/170519">NeurIPS listing</a></li>
+          <li><a href="https://openreview.net/forum?id=DFlWJgpxal">Paper on OpenReview</a></li>
+          <li><a href="https://raw.githubusercontent.com/szymonghost/Task-order-spectral-audit/main/paper.pdf">Camera-ready PDF</a></li>
+          <li><a href="https://github.com/szymonghost/Task-order-spectral-audit">Paper code</a></li>
+          <li><a href="../data/explainer.json" download>Download figure data</a></li>
+        </ul>
+        <p class="publication-note">The Task-Order Landscapes benchmark is in progress.</p>
+        <a class="button button-outline" href="mailto:szymon.duchowicz@gmail.com">Email me about the paper</a>
+      </div>
+    </section>
+  </article>
+</div>
+</main>
+<footer class="footer site-frame"><a href="../index.html">Back to home</a><a href="#page-title">Back to top</a></footer>
+</body>
+</html>

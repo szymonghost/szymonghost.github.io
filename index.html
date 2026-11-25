@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="data:,">
+  <title>Szymon Hubert Duchowicz | Continual Learning Research</title>
+  <meta name="description" content="Szymon Hubert Duchowicz, independent machine-learning researcher. Task order, forgetting, and continual learning.">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/explainer.js" type="module"></script>
+</head>
+<body data-explainer-src="data/explainer.json">
+<a class="skip-link" href="#about">Skip to introduction</a>
+<header class="masthead site-frame">
+  <a class="identity" href="index.html">Szymon Duchowicz</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="#featured">Featured</a>
+    <a href="#research">Research</a>
+  </nav>
+  <div class="site-controls">
+    <button type="button" class="control motion-control" data-motion-button aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true"></span><span data-motion-label>Pause motion</span></button>
+    <button type="button" class="control theme-control" data-theme-button aria-label="Switch to light mode" title="Switch to light mode" hidden><span class="theme-icon" aria-hidden="true"></span></button>
+  </div>
+</header>
+<main>
+  <section class="home-profile site-frame" id="about" aria-labelledby="profile-title">
+    <h1 id="profile-title">Szymon Hubert Duchowicz</h1>
+    <div class="home-profile-details">
+      <p class="home-bio">I’m an independent researcher. I study how task order shapes forgetting and work on continual learning.</p>
+      <div class="home-contact">
+        <p class="home-availability"><span class="signal" aria-hidden="true"></span>Currently looking for a project to join</p>
+        <a href="mailto:szymon.duchowicz@gmail.com">szymon.duchowicz@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-feature site-frame" id="featured" aria-labelledby="featured-title">
+    <canvas class="life-background" data-life aria-hidden="true"></canvas>
+    <div class="home-feature-copy">
+      <p class="eyebrow">Featured</p>
+      <h2 id="featured-title">The paper, explained.</h2>
+      <p class="home-finding">Task order changes how much a neural network forgets.</p>
+      <a class="button button-solid" href="posts/paper-explained.html"><span>Explore the interactive post <span class="reading-time">(10 min)</span></span></a>
+    </div>
+    <div class="hero-art feature-art" aria-hidden="true">
+      <span class="art-corner art-corner-tl"></span><span class="art-corner art-corner-tr"></span><span class="art-corner art-corner-bl"></span><span class="art-corner art-corner-br"></span>
+      <div class="art-reticle"></div>
+      <canvas data-ascii></canvas>
+      <div class="art-label">Four-task order space</div>
+    </div>
+  </section>
+
+  <section class="home-overview site-frame" id="research" aria-labelledby="research-title">
+    <h2 id="research-title">Research</h2>
+    <div class="home-entries">
+      <article><h3>Beyond Pairwise Task-Order Models</h3><p>A seed-aware spectral audit of continual-learning landscapes. CL4FMAgents at NeurIPS 2026.</p><ul class="resource-links"><li><a href="https://zenodo.org/records/23769322">Paper on Zenodo</a></li><li><a href="https://neurips.cc/virtual/2026/loc/sydney/170519">NeurIPS listing</a></li><li><a href="https://openreview.net/forum?id=DFlWJgpxal">OpenReview</a></li><li><a href="https://github.com/szymonghost/Task-order-spectral-audit">Code</a></li></ul></article>
+      <article>
+        <h3>Task-Order Landscapes</h3>
+        <p>In progress. A benchmark for measuring how task order shapes forgetting across repeated runs.</p>
+      </article>
+    </div>
+  </section>
+</main>
+<footer class="footer site-frame"><span>Szymon Duchowicz</span><ul class="resource-links"><li><a href="mailto:szymon.duchowicz@gmail.com">Email</a></li><li><a href="https://github.com/szymonghost">GitHub</a></li></ul></footer>
+</body>
+</html>
